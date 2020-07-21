@@ -2,12 +2,18 @@ package main
 
 import (
 	"imooc/分布式爬虫项目/demo1/engine"
+	"imooc/分布式爬虫项目/demo1/model"
+	"imooc/分布式爬虫项目/demo1/parser"
+	"imooc/分布式爬虫项目/demo1/schedular"
 )
 
 func main() {
-	url := "https://book.douban.com/tag/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C"
-	engine.Run(engine.Request{
+	url := "https://book.douban.com/tag/"
+
+	s := schedular.DefaultSchedular{}
+	e := engine.NewConCurrentEngine(&s, 1000)
+	e.Run(model.Request{
 		Url:       url,
-		ParseFunc: engine.ParseLevel2,
+		ParseFunc: parser.ParseLevel1,
 	})
 }
