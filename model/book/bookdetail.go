@@ -3,6 +3,7 @@ package book
 import "fmt"
 
 type BookDetail struct {
+	Cate        string
 	Name        string
 	Author      string
 	Publisher   string
@@ -13,5 +14,5 @@ type BookDetail struct {
 }
 
 func (book BookDetail) String() string {
-	return fmt.Sprintf("\n名字：《%v》\n作者：%v\n出版社: %v\n出版时间：%v\n价格：%v\n评分：%v\n简介：%v\n", book.Name, book.Author, book.Publisher, book.PublishTime, book.Price, book.Score, book.Intro)
+	return fmt.Sprintf("\n类别：%v \n名字：《%v》\n作者：%v\n出版社: %v\n出版时间：%v\n价格：%v\n评分：%v\n简介：%v\n", book.Cate, book.Name, book.Author, book.Publisher, book.PublishTime, book.Price, book.Score, book.Intro)
 }
