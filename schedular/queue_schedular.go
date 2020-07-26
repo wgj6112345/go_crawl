@@ -1,15 +1,20 @@
 package schedular
 
-import "imooc/分布式爬虫项目/demo1/model"
+import (
+	"imooc/分布式爬虫项目/demo1/model"
+)
+
+type FetchFunc func(string) ([]byte, error)
 
 type QueueSchedular struct {
 	requestChan chan model.Request
 	workerChan  chan chan model.Request
+	Fetcher     FetchFunc
 }
 
 func (s *QueueSchedular) Run() {
-	s.requestChan = make(chan model.Request, 1000)
-	s.workerChan = make(chan chan model.Request, 1000)
+	s.requestChan = make(chan model.Request)
+	s.workerChan = make(chan chan model.Request)
 	go func() {
 		var requestQ []model.Request
 		var workerQ []chan model.Request
@@ -34,7 +39,6 @@ func (s *QueueSchedular) Run() {
 			}
 		}
 	}()
-
 }
 
 func (s *QueueSchedular) Dispatch(req model.Request) {

@@ -106,11 +106,9 @@ func getProxy() (match string) {
 	return match
 }
 
-func Fetch(url string) ([]byte, error) {
+func Fetch(url string) (body []byte, err error) {
 	// 控制爬虫频率
 	<-time.Tick(time.Duration(time.Second))
-
-	// TODO:  用 布隆过滤器 进行过滤 已经访问过的网页 就不再访问了
 
 	req, _ := http.NewRequest("GET", url, nil)
 	req.Header.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36")
@@ -120,6 +118,11 @@ func Fetch(url string) ([]byte, error) {
 		logger.Logger.Errorf("Error status code : %v\n", resp.StatusCode)
 	}
 	defer resp.Body.Close()
+
+	if resp.StatusCode != 200 {
+		logger.Logger.Errorf("fetch url: %v failed, status = %v\n", url, resp.StatusCode)
+		return
+	}
 
 	bufReader := bufio.NewReader(resp.Body)
 	encode := checkEncoding(bufReader)

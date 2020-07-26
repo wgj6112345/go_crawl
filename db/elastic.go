@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 	"imooc/分布式爬虫项目/demo1/logger"
-	"imooc/分布式爬虫项目/demo1/model"
+	"imooc/分布式爬虫项目/demo1/model/book"
 	"reflect"
 
 	"github.com/olivere/elastic/v7"
@@ -112,9 +112,9 @@ func QueryString(index string, typ string, field string, value string) (res *ela
 // TODO  条件查询  短语搜索    简单分页
 
 func printSearchResult(res *elastic.SearchResult) {
-	var book model.BookItem
-	for _, item := range res.Each(reflect.TypeOf(book)) {
-		t := item.(model.BookItem)
+	var bookItem book.BookItem
+	for _, item := range res.Each(reflect.TypeOf(bookItem)) {
+		t := item.(book.BookItem)
 		fmt.Println("t: ", t)
 	}
 }

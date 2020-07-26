@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"imooc/分布式爬虫项目/demo1/model"
 	"imooc/分布式爬虫项目/demo1/model/book"
+	bookpkg "imooc/分布式爬虫项目/demo1/model/book"
 	"regexp"
 )
 
@@ -32,6 +33,44 @@ const (
 	intro       = `<div class="intro">[\d\D]*?<p>([^<]+)</p></div>`
 )
 
+type parseFunc func([]byte) model.ParseResult
+
+type Level12Parser struct {
+	ParseFunc parseFunc
+	Name      string
+}
+
+func (p *Level12Parser) Parse(body []byte) (parseResult model.ParseResult) {
+	return p.ParseFunc(body)
+}
+
+func (p *Level12Parser) Serialize() (name string, args []interface{}) {
+	return p.Name, nil
+}
+
+type Level3Parser struct {
+	Url  string
+	Cate string
+}
+
+func (p *Level3Parser) Parse(body []byte) (parseResult model.ParseResult) {
+	return ParseLevel3(body, p.Url, p.Cate)
+}
+
+func (p *Level3Parser) Serialize() (name string, args []interface{}) {
+	return "ParseLevel3", []interface{}{p.Url, p.Cate}
+}
+
+type NilParser struct{}
+
+func (p *NilParser) Parse(body []byte) model.ParseResult {
+	return model.ParseResult{}
+}
+
+func (p *NilParser) Serialize() (name string, args []interface{}) {
+	return "NilParser", nil
+}
+
 func ParseLevel1(body []byte) (result model.ParseResult) {
 	re := regexp.MustCompile(reLevel1)
 	match := re.FindAllSubmatch(body, -1)
@@ -42,7 +81,10 @@ func ParseLevel1(body []byte) (result model.ParseResult) {
 	var request model.Request
 	for _, m := range match {
 		request.Url = urlPrefix + string(m[urlIndex])
-		request.ParseFunc = ParseLevel2
+		request.Parser = &Level12Parser{
+			ParseFunc: ParseLevel2,
+			Name:      "ParseLevel2",
+		}
 		result.Requests = append(result.Requests, request)
 		// result.Items = append(result.Items, string(m[itemIndex]))
 	}
@@ -67,7 +109,10 @@ func ParseLevel2(body []byte) (result model.ParseResult) {
 		for _, pageUrl := range pages {
 			page := fmt.Sprintf("%s%s", urlBase, string(pageUrl[1]))
 			request.Url = page
-			request.ParseFunc = ParseLevel2
+			request.Parser = &Level12Parser{
+				ParseFunc: ParseLevel2,
+				Name:      "ParseLevel2",
+			}
 			result.Requests = append(result.Requests, request)
 		}
 	}
@@ -84,8 +129,9 @@ func ParseLevel2(body []byte) (result model.ParseResult) {
 	// var itemIndex = 2
 	for _, m := range match {
 		request.Url = string(m[urlIndex])
-		request.ParseFunc = func(body []byte) model.ParseResult {
-			return ParseLevel3(body, string(m[urlIndex]), string(cate[1]))
+		request.Parser = &Level3Parser{
+			Url:  string(m[urlIndex]),
+			Cate: string(cate[1]),
 		}
 		result.Requests = append(result.Requests, request)
 		// result.Items = append(result.Items, string(m[itemIndex]))
@@ -129,16 +175,16 @@ func ParseLevel3(body []byte, url string, cate string) (result model.ParseResult
 	reId := regexp.MustCompile(reUrlId)
 	id := reId.FindString(url)
 
-	var item model.BookItem
+	var item bookpkg.BookItem
 	item.Url = url
 	item.Id = id
-	item.Payload = book
+	item.BookDetail = book
 	result.Items = append(result.Items, item)
 	// logger.Logger.Infof("parseLevel2: result: \n", result)
 	return
 }
 
-func NilParser([]byte) model.ParseResult {
+func NilParseer([]byte) model.ParseResult {
 	return model.ParseResult{}
 }
 

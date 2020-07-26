@@ -1,18 +1,15 @@
 package model
 
+import (
+	"imooc/分布式爬虫项目/demo1/model/book"
+)
+
 type Request struct {
-	Url       string
-	ParseFunc func([]byte) ParseResult
+	Url    string
+	Parser Parser
 }
 
 type ParseResult struct {
 	Requests []Request
-	Items    []BookItem
-}
-
-type BookItem struct {
-	Url     string
-	Type    string
-	Id      string
-	Payload interface{}
+	Items    []book.BookItem
 }

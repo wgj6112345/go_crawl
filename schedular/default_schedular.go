@@ -4,6 +4,7 @@ import "imooc/分布式爬虫项目/demo1/model"
 
 type DefaultSchedular struct {
 	workChan chan model.Request
+	Fetcher  FetchFunc
 }
 
 func (s *DefaultSchedular) Run() {
