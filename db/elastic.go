@@ -3,8 +3,8 @@ package db
 import (
 	"context"
 	"fmt"
-	"imooc/分布式爬虫项目/demo1/logger"
-	"imooc/分布式爬虫项目/demo1/model/book"
+	"github.com/wgj6112345/go_crawl/logger"
+	"github.com/wgj6112345/go_crawl/model/book"
 	"reflect"
 
 	"github.com/olivere/elastic/v7"

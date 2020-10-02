@@ -1,7 +1,7 @@
 package main
 
 import (
-	"imooc/分布式爬虫项目/demo1/proxy/schedular"
+	"github.com/wgj6112345/go_crawl/proxy/schedular"
 )
 
 func main() {

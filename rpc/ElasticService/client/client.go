@@ -1,9 +1,9 @@
 package client
 
 import (
-	"imooc/分布式爬虫项目/demo1/logger"
-	"imooc/分布式爬虫项目/demo1/model/book"
-	"imooc/分布式爬虫项目/demo1/rpc/rpcHelper"
+	"github.com/wgj6112345/go_crawl/logger"
+	"github.com/wgj6112345/go_crawl/model/book"
+	"github.com/wgj6112345/go_crawl/rpc/rpcHelper"
 )
 
 func SaveItem(host string) (out chan book.BookItem, err error) {

@@ -1,7 +1,7 @@
 package redis
 
 import (
-	"imooc/分布式爬虫项目/demo1/proxy/logger"
+	"github.com/wgj6112345/go_crawl/proxy/logger"
 	"time"
 
 	"github.com/garyburd/redigo/redis"

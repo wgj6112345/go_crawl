@@ -1,8 +1,8 @@
 package schedular
 
 import (
-	. "imooc/分布式爬虫项目/demo1/proxy/collector"
-	"imooc/分布式爬虫项目/demo1/proxy/model"
+	. "github.com/wgj6112345/go_crawl/proxy/collector"
+	"github.com/wgj6112345/go_crawl/proxy/model"
 	"sync"
 )
 

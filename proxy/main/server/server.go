@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
-	"imooc/分布式爬虫项目/demo1/proxy/logger"
-	"imooc/分布式爬虫项目/demo1/proxy/schedular"
+	"github.com/wgj6112345/go_crawl/proxy/logger"
+	"github.com/wgj6112345/go_crawl/proxy/schedular"
 	"net/http"
 
 	"github.com/garyburd/redigo/redis"

@@ -1,7 +1,7 @@
 package rpcHelper
 
 import (
-	"imooc/分布式爬虫项目/demo1/logger"
+	"github.com/wgj6112345/go_crawl/logger"
 	"net"
 	"net/rpc"
 	"net/rpc/jsonrpc"

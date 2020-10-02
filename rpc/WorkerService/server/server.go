@@ -3,9 +3,9 @@ package main
 import (
 	"flag"
 	"fmt"
-	"imooc/分布式爬虫项目/demo1/logger"
-	"imooc/分布式爬虫项目/demo1/rpc/WorkerService/service"
-	"imooc/分布式爬虫项目/demo1/rpc/rpcHelper"
+	"github.com/wgj6112345/go_crawl/logger"
+	"github.com/wgj6112345/go_crawl/rpc/WorkerService/service"
+	"github.com/wgj6112345/go_crawl/rpc/rpcHelper"
 )
 
 var (

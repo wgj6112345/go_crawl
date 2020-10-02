@@ -1,9 +1,9 @@
 package schedular
 
 import (
-	"imooc/分布式爬虫项目/demo1/proxy/logger"
-	"imooc/分布式爬虫项目/demo1/proxy/model"
-	redisdb "imooc/分布式爬虫项目/demo1/proxy/redis"
+	"github.com/wgj6112345/go_crawl/proxy/logger"
+	"github.com/wgj6112345/go_crawl/proxy/model"
+	redisdb "github.com/wgj6112345/go_crawl/proxy/redis"
 	"time"
 
 	"github.com/garyburd/redigo/redis"
@@ -69,7 +69,7 @@ func (s *Schedular) Verify() {
 	for {
 		select {
 		case ip := <-s.ipChan:
-			if count > 2 {
+			if count > 3 {
 				conn.Flush()
 				count = 0
 			}
@@ -77,7 +77,7 @@ func (s *Schedular) Verify() {
 			if verify(ip) {
 				conn.Send("LPUSH", s.ProxyQueueRedisKey, ip.Ip)
 				count++
-				logger.Logger.Debugf("count: %v\n", count)
+				// logger.Logger.Debugf("count: %v\n", count)
 			}
 			// case <-ticker.C:
 			// 	logger.Logger.Debugf("定时刷新 pipeline...\n")
@@ -91,7 +91,7 @@ func (s *Schedular) Verify() {
 
 func (s *Schedular) CheckIpNum() {
 
-	ticker := time.NewTicker(time.Second * 10)
+	ticker := time.NewTicker(time.Second * 1)
 	conn := s.RedisPool.Get()
 	defer conn.Close()
 

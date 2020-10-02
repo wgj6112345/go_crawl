@@ -2,8 +2,11 @@ package schedular
 
 import (
 	"fmt"
-	"imooc/分布式爬虫项目/demo1/logger"
-	"imooc/分布式爬虫项目/demo1/model/book"
+	"github.com/wgj6112345/go_crawl/file"
+	"github.com/wgj6112345/go_crawl/logger"
+	"github.com/wgj6112345/go_crawl/model/baidu"
+	"github.com/wgj6112345/go_crawl/model/book"
+	"time"
 )
 
 const (
@@ -36,6 +39,27 @@ func SaveItem() chan book.BookItem {
 	return out
 }
 
+func SaveBaiduItem() chan baidu.BaiduItem {
+	logger.Logger.Infof("start SaveBaiduItem\n")
+
+	file.InitExcel()
+	out := make(chan baidu.BaiduItem)
+	ticker := time.NewTicker(time.Second * 100)
+	go func() {
+		defer file.SaveExcel("baidu")
+		for {
+			select {
+			case item := <-out:
+				file.SaveToExcel(item)
+				logger.Logger.Infof("save item : %v success\n", item.Url)
+			case <-ticker.C:
+				file.SaveExcel("baidu")
+			}
+		}
+	}()
+	return out
+}
+
 // 暂时无法往 es 插入数据 先用 demosave
 func save(item book.BookItem) (err error) {
 	return
@@ -45,4 +69,8 @@ func DemoSave(item book.BookItem) (result string, err error) {
 	// logger.Logger.Infof("saving item: %v\n", item)
 
 	return fmt.Sprintf("%v", item), nil
+}
+
+func BaiduItemSave() {
+
 }

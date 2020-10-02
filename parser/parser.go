@@ -2,9 +2,9 @@ package parser
 
 import (
 	"fmt"
-	"imooc/分布式爬虫项目/demo1/model"
-	"imooc/分布式爬虫项目/demo1/model/book"
-	bookpkg "imooc/分布式爬虫项目/demo1/model/book"
+	"github.com/wgj6112345/go_crawl/model"
+	"github.com/wgj6112345/go_crawl/model/book"
+	bookpkg "github.com/wgj6112345/go_crawl/model/book"
 	"regexp"
 )
 

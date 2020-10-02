@@ -1,6 +1,6 @@
 package schedular
 
-import "imooc/分布式爬虫项目/demo1/model"
+import "github.com/wgj6112345/go_crawl/model"
 
 type DefaultSchedular struct {
 	workChan chan model.Request

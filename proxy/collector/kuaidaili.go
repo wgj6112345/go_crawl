@@ -2,9 +2,9 @@ package collector
 
 import (
 	"fmt"
-	"imooc/分布式爬虫项目/demo1/proxy/logger"
-	"imooc/分布式爬虫项目/demo1/proxy/model"
-	"imooc/分布式爬虫项目/demo1/proxy/tools"
+	"github.com/wgj6112345/go_crawl/proxy/logger"
+	"github.com/wgj6112345/go_crawl/proxy/model"
+	"github.com/wgj6112345/go_crawl/proxy/tools"
 	"regexp"
 	"strconv"
 	"strings"

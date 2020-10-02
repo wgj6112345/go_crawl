@@ -2,10 +2,10 @@ package service
 
 import (
 	"fmt"
-	"imooc/分布式爬虫项目/demo1/model"
-	"imooc/分布式爬虫项目/demo1/parser"
-	"imooc/分布式爬虫项目/demo1/rpc/config"
-	"imooc/分布式爬虫项目/demo1/rpc/rpcHelper"
+	"github.com/wgj6112345/go_crawl/model"
+	"github.com/wgj6112345/go_crawl/parser"
+	"github.com/wgj6112345/go_crawl/rpc/config"
+	"github.com/wgj6112345/go_crawl/rpc/rpcHelper"
 	"testing"
 )
 

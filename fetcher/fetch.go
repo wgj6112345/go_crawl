@@ -2,7 +2,8 @@ package fetcher
 
 import (
 	"bufio"
-	"imooc/分布式爬虫项目/demo1/logger"
+	"errors"
+	"github.com/wgj6112345/go_crawl/logger"
 	"io/ioutil"
 	"net/http"
 	"net/http/httputil"
@@ -24,6 +25,9 @@ import (
 // )
 
 func FetchByProxy(Url string) (body []byte, err error) {
+	// 控制爬虫频率
+	// <-time.Tick(time.Duration(time.Second * 2))
+
 	// redis 布隆过滤器 判断 URL 是否 已经访问过
 
 	var timeout = time.Duration(3 * time.Second)
@@ -66,11 +70,18 @@ func FetchByProxy(Url string) (body []byte, err error) {
 		return
 	}
 
+	// logger.Logger.Debugf("fetch url: %v, resp.StatusCode: %v\n", Url, resp.StatusCode)
+
 	bufReader := bufio.NewReader(resp.Body)
 	encode := checkEncoding(bufReader)
 	utf8Reader := transform.NewReader(bufReader, encode.NewDecoder())
 
-	return ioutil.ReadAll(utf8Reader)
+	body, err = ioutil.ReadAll(utf8Reader)
+	if strings.Contains(string(body), "网络不给力，请稍后重试") {
+		err = errors.New("ip 被封了")
+	}
+
+	return
 }
 
 func checkEncoding(r *bufio.Reader) encoding.Encoding {
@@ -108,7 +119,7 @@ func getProxy() (match string) {
 
 func Fetch(url string) (body []byte, err error) {
 	// 控制爬虫频率
-	<-time.Tick(time.Duration(time.Second))
+	<-time.Tick(time.Duration(time.Second * 2))
 
 	req, _ := http.NewRequest("GET", url, nil)
 	req.Header.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36")
@@ -123,6 +134,7 @@ func Fetch(url string) (body []byte, err error) {
 		logger.Logger.Errorf("fetch url: %v failed, status = %v\n", url, resp.StatusCode)
 		return
 	}
+	logger.Logger.Debugf("fetch url: %v, resp.StatusCode: %v\n", url, resp.StatusCode)
 
 	bufReader := bufio.NewReader(resp.Body)
 	encode := checkEncoding(bufReader)

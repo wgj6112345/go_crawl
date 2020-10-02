@@ -1,7 +1,7 @@
 package model
 
 import (
-	"imooc/分布式爬虫项目/demo1/model/book"
+	"github.com/wgj6112345/go_crawl/model/book"
 )
 
 type Request struct {

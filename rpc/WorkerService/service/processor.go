@@ -1,8 +1,8 @@
 package service
 
 import (
-	"imooc/分布式爬虫项目/demo1/engine"
-	"imooc/分布式爬虫项目/demo1/logger"
+	"github.com/wgj6112345/go_crawl/engine"
+	"github.com/wgj6112345/go_crawl/logger"
 )
 
 type WorkerService struct {

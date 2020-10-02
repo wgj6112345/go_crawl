@@ -1,9 +1,9 @@
 package service
 
 import (
-	"imooc/分布式爬虫项目/demo1/logger"
-	"imooc/分布式爬虫项目/demo1/model/book"
-	"imooc/分布式爬虫项目/demo1/schedular"
+	"github.com/wgj6112345/go_crawl/logger"
+	"github.com/wgj6112345/go_crawl/model/book"
+	"github.com/wgj6112345/go_crawl/schedular"
 )
 
 type DemoSaveService struct {

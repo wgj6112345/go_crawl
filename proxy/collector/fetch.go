@@ -2,7 +2,7 @@ package collector
 
 import (
 	"bufio"
-	"imooc/分布式爬虫项目/demo1/proxy/logger"
+	"github.com/wgj6112345/go_crawl/proxy/logger"
 	"io/ioutil"
 	"math/rand"
 	"net/http"

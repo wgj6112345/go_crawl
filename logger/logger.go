@@ -11,7 +11,7 @@ import (
 )
 
 const (
-	logPath   = "D:/mygo/src/imooc/分布式爬虫项目/demo1/logs/demo1.log"
+	logPath   = "D:/mygo/src/github.com/wgj6112345/go_crawl/logs/demo1.log"
 	logSize   = 100
 	logBackUp = 2
 	logMaxAge = 7
