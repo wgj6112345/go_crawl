@@ -2,13 +2,14 @@ package engine
 
 import (
 	"fmt"
+	"strings"
+
 	"github.com/wgj6112345/go_crawl/fetcher"
 	"github.com/wgj6112345/go_crawl/logger"
 	"github.com/wgj6112345/go_crawl/model"
 	"github.com/wgj6112345/go_crawl/model/book"
 	"github.com/wgj6112345/go_crawl/schedular"
 	"github.com/wgj6112345/go_crawl/selenium"
-	"strings"
 )
 
 type Processor func(model.Request) (model.ParseResult, error)
@@ -50,7 +51,7 @@ func (e *ConCurrentEngine) Run(seeds ...model.Request) {
 
 }
 
-// 改造 队列式的 worker 每个都有一个 work channel
+// 队列式 worker 每个都有一个 work channel
 func (e *ConCurrentEngine) HandleWorker(in chan model.Request, out chan model.ParseResult, s schedular.Schedular) {
 	go func() {
 		for {
@@ -60,7 +61,6 @@ func (e *ConCurrentEngine) HandleWorker(in chan model.Request, out chan model.Pa
 			if err != nil {
 				continue
 			}
-			// TODO  插入 redis 布隆过滤器
 
 			out <- result
 		}
@@ -69,6 +69,26 @@ func (e *ConCurrentEngine) HandleWorker(in chan model.Request, out chan model.Pa
 
 func Work(req model.Request) (result model.ParseResult, err error) {
 	logger.Logger.Infof("fetch url: %v \n", req.Url)
+
+	// 如果 url 在重复，则不作处理
+	// 需要 redis 4.0以上，并且安装 bloomfilter 插件
+	// redisPool := redis.InitRedis()
+	// redisClient := redisPool.Get()
+
+	// isExist, err := redis.Int(redisClient.Do("bf.exists", "url", req.Url))
+	// if err != nil {
+	// 	fmt.Println("bf.exists err: ", err)
+	// 	return model.ParseResult{}, err
+	// }
+
+	// if isExist == 0 {
+	// 	if _, err := redisClient.Do("bf.add", "url", req.Url); err != nil {
+	// 		fmt.Println("bf.add err: ", err)
+	// 		return model.ParseResult{}, err
+	// 	}
+	// } else if isExist == 1 {
+	// 	return model.ParseResult{}, errors.New("重复url!!")
+	// }
 
 	body, err := fetcher.Fetch(req.Url)
 	if err != nil {

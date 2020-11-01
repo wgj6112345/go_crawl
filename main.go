@@ -14,6 +14,7 @@ import (
 )
 
 func main() {
+
 	// 性能分析
 	var isCPUPprof bool
 	var isMemPprof bool
@@ -43,7 +44,7 @@ func main() {
 	s := schedular.QueueSchedular{}
 	e := engine.ConCurrentEngine{
 		Schedular:   &s,
-		WorkNum:     1,
+		WorkNum:     10,
 		ItemChan:    schedular.SaveItem(),
 		ProcessFunc: engine.Work,
 	}

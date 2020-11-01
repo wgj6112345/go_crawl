@@ -2,11 +2,12 @@ package schedular
 
 import (
 	"fmt"
+	"time"
+
 	"github.com/wgj6112345/go_crawl/file"
 	"github.com/wgj6112345/go_crawl/logger"
 	"github.com/wgj6112345/go_crawl/model/baidu"
 	"github.com/wgj6112345/go_crawl/model/book"
-	"time"
 )
 
 const (
@@ -26,8 +27,7 @@ func SaveItem() chan book.BookItem {
 			logger.Logger.Infof("got %v item: %v \n", count, item)
 			count++
 
-			// TODO 插入 es
-			// 试了一个多小时 es 无法插入数据 不知道是哪里的问题 后面再试试
+			// TODO 可以插入 es
 			result, err := DemoSave(item)
 			if err != nil {
 				logger.Logger.Errorf("save item id: %d failed, err : %v\n", item.Id, err)

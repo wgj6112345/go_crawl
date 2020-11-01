@@ -5,6 +5,7 @@ go 1.14
 require (
 	github.com/360EntSecGroup-Skylar/excelize v1.4.1
 	github.com/garyburd/redigo v1.6.2
+	github.com/go-redis/redis v6.15.9+incompatible
 	github.com/olivere/elastic/v7 v7.0.20
 	github.com/tebeka/selenium v0.9.9
 	go.uber.org/zap v1.16.0
